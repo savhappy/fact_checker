@@ -18,7 +18,6 @@ defmodule FactChecker.Storage.ETS do
 
     placeholder_list = Enum.map(list, fn str -> is_variable?(str) end) 
     ets_list = List.to_tuple(placeholder_list)
-    IO.inspect(placeholder_list)
 
     if Enum.any?(placeholder_list, fn el -> el == :_ end) do
       query_with_placeholders(placeholder_list, values)
