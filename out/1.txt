@@ -1,1 +1,6 @@
-true
+sam
+alex sam
+sam frodo
+{X: alex, Y: sam} {X: sam, Y: sam} {X: sam, Y: frodo} {X: frog, Y: toad}
+{X: 3, Y: 5}
+false 
