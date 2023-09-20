@@ -1,9 +1,9 @@
 defmodule FactChecker.Storage.ETS do
-
   alias FactChecker.Parser
+
   def start_link() do
     IO.inspect("start")
-    :ets.new(:facts, [:bag, :protected, :named_table])
+    :ets.new(:facts, [:bag, :public, :named_table])
   end
 
   def insert(key, values) do

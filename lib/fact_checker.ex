@@ -1,6 +1,7 @@
 defmodule FactChecker do
   alias FactChecker.Storage.ETS
   alias FactChecker.Parser
+  alias FactChecker.Writer
 
   def process_script(script_file) do
     File.stream!(script_file)
@@ -19,40 +20,41 @@ defmodule FactChecker do
     end)
   end
 
+  # handle inserts
   def insert_args(rest) do
+
     [hd | args] = rest
 
-    parsed = parser(args)
+    parsed = validate(args)
     ETS.insert(hd, parsed)
+    |> IO.inspect
   end
 
+  # handle queries
   def query_args(rest) do
     [hd | args] = rest
-    parsed = parser(args)
-    query = [hd, parsed] |> List.flatten() |> List.to_tuple()
 
-    handle_query(hd, parsed)
+    handle_query(hd, validate(args))
   end
-
 
   def handle_query(key, values) do
     pattern = [key | values]
 
-    res = Parser.parser(pattern) 
+    res = Parser.parser(pattern)
 
     matched = :ets.match_object(:facts, res)
-    
+
     cond do
-      matched == [] -> Parser.write_to_file("false \n")
+      matched == [] -> Writer.write_to_file("false\n")
       matched != [] -> Parser.parser_to_write(pattern, matched)
     end
   end
 
-  defp parser(args) do
+  # helpers
+  defp validate(args) do
     Enum.map(args, fn str ->
       Regex.scan(~r/[a-zA-Z0-9_]+/, str)
     end)
     |> List.flatten()
   end
 end
-

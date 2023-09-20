@@ -1,0 +1,3 @@
+INPUT is_a_cat (lucy)
+INPUT is_a_cat (mel)
+QUERY is_a_cat (lucy)
