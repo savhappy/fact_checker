@@ -5,7 +5,7 @@ defmodule FactChecker.Parser do
   def parser(pattern) do
       pattern
       |> Enum.uniq()
-      |> Enum.filter(fn el -> Helpers.is_variable?(el) end)
+      |> Enum.filter(&Helpers.is_variable?/1)
       |> Enum.with_index(1)
       |> Map.new()
       |> map_parser(pattern)
@@ -37,7 +37,7 @@ defmodule FactChecker.Parser do
   def compare_lists(pattern, matched) do
     only_variables = Enum.filter(pattern, &Helpers.is_variable?/1)
 
-    Enum.map(matched, fn el -> Tuple.to_list(el) end)
+    Enum.map(matched, &Tuple.to_list/1)
     |> Enum.map(fn sublist -> sublist -- pattern end)
     |> Enum.map(fn sublist ->
       Enum.zip(only_variables, sublist)

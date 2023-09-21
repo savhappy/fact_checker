@@ -24,3 +24,6 @@ fact_checker-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Ignore created folder and file
+/out/
